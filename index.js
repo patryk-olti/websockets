@@ -10,9 +10,9 @@ wsServer.on("connection", (connection, request) => {
 
     const { username } = url.parse(request.url, true).query
     console.log(username);
-    
+
 })
 
 server.listen(port, () => {
-    console.log('listening on port ' + port	)
+    console.log('listening on port: ' + port	)
 })
