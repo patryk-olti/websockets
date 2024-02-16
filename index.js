@@ -1,6 +1,3 @@
-const express = require('express');
-const app = express();
-
 const http = require('http');
 const { WebSocketServer } = require('ws');
 
@@ -13,11 +10,6 @@ const port = 8000;
 
 const connections = {};
 const users = {};
-
-app.get('/', (req, res) => {
-    res.write(`<h1>Hello </h1>`);
-    res.end();
-});
 
 const broadcastUsers = () => {
     Object.keys(connections).forEach( uuid => {
