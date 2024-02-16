@@ -11,7 +11,7 @@ const port = 8000;
 const connections = {};
 const users = {};
 
-const broadcast = () => {
+const broadcastUsers = () => {
     Object.keys(connections).forEach( uuid => {
         const connection = connections[uuid]
         const message = JSON.stringify(users)
@@ -24,13 +24,18 @@ const handleMessage = (bytes, uuid) => {
     const user = users[uuid]
     user.state = message
 
-    broadcast()
+    broadcastUsers()
 
-    console.log(message)
+    console.log(`${user.username} updated their state: ${JSON.stringify(user.state)}`)
 }
 
 const handleClose = uuid => {
-    
+
+    console.log(`${users[uuid]} disconnected`)
+    delete connections[uuid]
+    delete users[uuid]
+
+    broadcastUsers()
 }
 
 wsServer.on("connection", (connection, request) => {
@@ -40,6 +45,7 @@ wsServer.on("connection", (connection, request) => {
     const uuid = uuidv4();
 
     console.log(username)
+    console.log(uuid)
 
     //broadcast
     connections[uuid] = connection;
